@@ -1,7 +1,7 @@
 {
   "name": "@advanced-rest-client/monaco-support",
   "description": "Helper library to add support for the Monaco editor across the components",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "module": "index.js",
   "keywords": [

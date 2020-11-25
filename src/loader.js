@@ -1,27 +1,18 @@
 /**
- * @param {string} monacoBase Monaco base folder location, e.g. `../node_modules/monaco-editor/`
- * @return {string}
- */
-function getMonacoPrefix(monacoBase) {
-  let base = monacoBase;
-  if (!base.endsWith('/')) {
-    base += '/';
-  }
-  return `${base}monaco-editor/esm/vs/`;
-}
-
-
-/**
  * Creates `window.MonacoEnvironment` that returns a web worker that is a ES module
  * 
  * @param {string} monacoBase Monaco base folder location, e.g. `../node_modules/monaco-editor/`
  */
 export function createEnvironment(monacoBase) {
+  let base = monacoBase;
+  if (!base.endsWith('/')) {
+    base += '/';
+  }
   // @ts-ignore
   window.MonacoEnvironment = {
     getWorker: (moduleId, label) => {
       let url;
-      const prefix = getMonacoPrefix(monacoBase);
+      const prefix = `${base}esm/vs/`;
       const langPrefix = `${prefix}language/`;
       switch (label) {
         case 'json': url = `${langPrefix}json/json.worker.js`; break;
@@ -66,7 +57,11 @@ export function loadScript(url, isModule=false) {
  * @returns {Promise<void>} Resolved when all scripts are reported to be loaded
  */
 export async function loadMonaco(monacoBase) {
-  const prefix = getMonacoPrefix(monacoBase);
+  let base = monacoBase;
+  if (!base.endsWith('/')) {
+    base += '/';
+  }
+  const prefix = `${base}min/vs/`
   // @ts-ignore
   window.require = { paths: { vs: prefix } };
   const scripts = [
